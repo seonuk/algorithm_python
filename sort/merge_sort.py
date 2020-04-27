@@ -31,4 +31,5 @@ def merge_sort(numbers):
 
 if __name__=="__main__":
     numbers = [9,2,5,3,6,1,4,7,10,8]
-    print(merge_sort(numbers))
+    print("input :",numbers)
+    print("output :",merge_sort(numbers))
