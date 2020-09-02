@@ -15,5 +15,6 @@ def counting_sort(numbers, scope):
 
 if __name__ == "__main__":
     numbers = [2,2,2,1,4,3,3,3,5,6,7,8,8,8,8,10,9,6,7,7,6]
-    print(counting_sort(numbers,10))
+    print("입력", numbers)
+    print("출력", counting_sort(numbers,10))
 
