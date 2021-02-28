@@ -1,34 +1,31 @@
-import sys
+from sys import stdin, setrecursionlimit
 
-n, m = map(int, sys.stdin.readline().rstrip().split())
+input = stdin.readline
+def dfs(adj, visited, node):
+    if visited[node]:
+        return 0
 
-parents = [i for i in range(n + 1)]
-rootNodes = set()
+    visited[node] = True
+    for v in adj[node]:
+        if not visited[v]:
+            dfs(adj, visited, v)
 
-def getRootNode(nodeNum):
-    if parents[nodeNum] == nodeNum:
-        return nodeNum
+    return 1
 
-    parents[nodeNum] = getRootNode(parents[nodeNum])
+if __name__ == "__main__":
+    setrecursionlimit(1000 * 1000)
+    n, m = map(int, input().rstrip().split())
 
-    return parents[nodeNum]
+    adj = [[] for _ in range(n + 1)]
+    visited = [False for _ in range(n + 1)]
+    answer = 0
 
-def union(a, b):
-    aParent = getRootNode(a)
-    bParent = getRootNode(b)
+    for _ in range(m):
+        i, j = map(int, input().rstrip().split())
+        adj[i].append(j)
+        adj[j].append(i)
 
-    if aParent <= bParent:
-        parents[b] = aParent
-    else:
-        parents[a] = bParent
+    for startNode in range(1, n + 1):
+        answer += dfs(adj, visited, startNode)
 
-for _ in range(m):
-
-    u, v = map(int, sys.stdin.readline().rstrip().split())
-    union(u, v)
-
-    for i in range(1, n + 1):
-        getRootNode(i)
-
-print(len(set(parents)) - 1)
-
+    print(answer)
