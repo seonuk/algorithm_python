@@ -16,8 +16,7 @@ for _ in range(n):
 
 
 for w in sorted(list(depth)):
-    visited = set()
-    q = []
+    visited = [[False for _ in range(n)] for _ in range(n)]
     start = []
     count = 0
 
@@ -25,23 +24,24 @@ for w in sorted(list(depth)):
         for j in range(n):
             if board[i][j] <= w:
                 board[i][j] = 0
+                visited[i][j] = True
             else:
                 start.append((i, j))
 
     for (i, j) in start:
-        if (i, j) in visited:
+        if visited[i][j]:
             continue
 
         q = deque([(i, j)])
         count += 1
-        visited.add((i, j))
+        visited[i][j] = True
 
         while q:
             a, b = q.popleft()
             for na, nb in [(a-1, b+0), (a+1, b+0), (a+0, b-1), (a+0, b+1)]:
                 if 0 <= na < n and 0 <= nb < n:
-                    if (na, nb) not in visited and board[na][nb] != 0:
-                        visited.add((na, nb))
+                    if not visited[na][nb]:
+                        visited[na][nb] = True
                         q.append((na, nb))
 
     answer = max(answer, count)
